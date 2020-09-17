@@ -21,4 +21,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
 
-Route::get('/courses',[\App\Http\Controllers\CourseController::class,'index'])->name('courses');
+
+Route::group(['auth:sanctum', 'verified'],function (){
+    Route::get('/courses',[\App\Http\Controllers\CourseController::class,'index'])->name('courses');
+    Route::get('/course/{id}',[\App\Http\Controllers\CourseController::class,'show'])->name('course.show');
+    Route::get('/dashboard',function (){return Inertia\Inertia::render('Dashboard');})->name('dashboard');
+});
